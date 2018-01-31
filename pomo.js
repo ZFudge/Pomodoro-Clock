@@ -1,9 +1,16 @@
 const pomo = {
 	active: false,
 	ms: 1000,
-	time: document.getElementById("time"),
-	status: document.getElementById("status"),
-	canvas: document.getElementById("pomodoro-canvas"),
+	time: {
+		text: document.getElementById("time"),
+		paused: false,
+		current: 25,
+		duration: null
+	},
+	clock: {
+		status: document.getElementById("status"),
+		canvas: document.getElementById("pomodoro-canvas")
+	},
 	break: {
 		time: 5,
 		text: document.getElementById('break-text')
@@ -12,39 +19,59 @@ const pomo = {
 		time: 25,
 		text: document.getElementById('session-text')
 	},
-	start() {
-
+	push() {
+		this.active = !this.active;
+		(this.active) ? this.start() : this.pause();
 	},
-	main() {
-
+	start() {
+		if (this.time.paused) {
+			this.loop = setInterval(this.main,ms);
+		} else {
+			this.time.duration = session.time * 60;
+			
+		}
+	},
+	pause() {
+		this.time.paused = true;
+		clearInterval(this.loop);
 	},
 	draw(t) {
         this.context.beginPath();
-        this.context.arc(this.canvas.width/2,this.canvas.height/2,145,0,Math.PI * t);
+        this.context.arc(this.clock.canvas.width/2,this.clock.canvas.height/2,145,0,Math.PI * t);
         this.context.stroke();
 	},
+	set updateStatus(n) {
+
+	},
 	set timeText(t) {
-		this.time.innerHTML = t;
+		this.time.text.innerHTML = t;
 	},
-	set statusText(t) {
-		this.status.innerHTML = t;
-	},
-	set activate(ms) {
-		this.loop = setInterval(this.main,ms);
-	},
-	deactivate() {
-		clearInterval(this.loop);
+	set statusText(txt) {
+		this.clock.status.innerHTML = txt;
 	},
 	set breakTime(t) {
 		this.break.time += t;
-		this.break.text = this.break.time;
+		this.break.text.innerHTML = this.break.time;
+		if (this.clock.status.innerHTML === "Break") this.clock.statusText = this.break.time;
 	},
 	set sessionTime(t) {
 		this.session.time += t;
-		this.session.text = this.session.time;
+		const st = this.session.time;
+		this.session.text.innerHTML = st;
+		if (this.clock.status.innerHTML === "Session") {
+			if (st < 60) {
+				this.time.text.innerHTML = st + ":00"
+			} else {
+				(st%60<10) ? this.time.text.innerHTML = `${(st-(st%60))/60}:0${st%60}:00` : this.time.text.innerHTML = `${(st-(st%60))/60}:${st%60}:00`;
+			}
+		}
+	},
+	main() {
+
 	}
 
 };
+
 pomo.context = pomo.canvas.getContext("2d");
 pomo.context.lineWidth = 10;
 

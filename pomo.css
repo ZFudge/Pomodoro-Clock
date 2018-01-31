@@ -3,7 +3,8 @@ body {
 	padding: 0;
 	text-align: center;
 	overflow: hidden;
-	background-color: #acb;
+	background-color: #23a88d;
+	user-select: none;
 }
 
 html, body, #outer-container {
@@ -36,6 +37,7 @@ h1 {
 }
 
 #pomodoro-canvas {
+	z-index: -1;
 	position: absolute;
 	display: block;
 	margin-top: -300px;
@@ -51,6 +53,10 @@ h1 {
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
+}
+
+.title {
+	font-size: 16px;
 }
 
 #text-container {

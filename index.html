@@ -13,22 +13,22 @@
 		</div>
 		<div id="control-container">
 			<span>
-				<div>Break</div>
-				<span class="pointy">-</span>
-				<span>5</span>
-				<span class="pointy">+</span>
+				<div class="title">Break</div>
+				<span class="pointy" onclick="pomo.breakTime = -1">-</span>
+				<span id="break-text">5</span>
+				<span class="pointy" onclick="pomo.breakTime = 1">+</span>
 			</span>
 			<span>
-				<div>Session</div>
-				<span class="pointy">-</span>
-				<span>25</span>
-				<span class="pointy">+</span>
+				<div class="title">Session</div>
+				<span class="pointy" onclick="pomo.sessionTime = -1">-</span>
+				<span id="session-text">25</span>
+				<span class="pointy" onclick="pomo.sessionTime = 1">+</span>
 			</span>
 		</div>
 		<div id="pomodoro">
 			<div id="text-container">
-				<p id="status" class="pointy">Session</p>
-				<p id="time">0:00</p>
+				<p id="status" class="pointy" onclick="pomo.push()">Session</p>
+				<p id="time">25:00</p>
 			</div>
 			<canvas id="pomodoro-canvas" width="300" height="300"></canvas>
 		</div>
