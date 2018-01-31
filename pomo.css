@@ -30,15 +30,20 @@ h1 {
 }
 
 #pomodoro {
-	border: 2px solid green;
+	border: 10px solid white;
 	border-radius: 50%;
 	margin: 0 auto;
-	cursor: pointer;
 }
 
 #pomodoro-canvas {
 	position: absolute;
 	display: block;
+	margin-top: -300px;
+}
+
+#header-container {
+	display: flex;
+	align-items: center;
 }
 
 #control-container {
@@ -54,4 +59,8 @@ h1 {
 	display: flex;
 	flex-direction: column;
 	justify-content: space-around;
+}
+
+.pointy {
+	cursor: pointer;
 }
