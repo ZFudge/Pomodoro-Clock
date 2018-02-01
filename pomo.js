@@ -43,18 +43,13 @@ const pomo = {
 			down: new Audio("mousedown.mp3"),
 			up: new Audio("mouseup.mp3")
 		},
-		paused: false,
 		seconds: 1500,
 		maxSecs: 1500,
 		set setSeconds(t) {
 			this.seconds = t * 60;
 		},
 		reduceSeconds() {
-			if (this.seconds > 0) {
-				this.seconds--;
-			} else {
-				this.flipStatus();
-			}
+			(this.seconds > 0) ? this.seconds-- : this.flipStatus();
 		},
 		flipStatus() {
 			const newStatus = (this.status.innerHTML === "Session") ? "Break" : "Session";
@@ -78,8 +73,15 @@ const pomo = {
 			}
 		},
 		pause() {
-			this.paused = true;
 			clearInterval(this.loop);
+		},
+		draw() {
+			const t = (2 / this.maxSecs) * this.seconds;
+	        this.context.beginPath();
+			this.context.clearRect(0,0,this.canvas.width,this.canvas.height);
+	        this.context.beginPath();
+	        this.context.arc(this.canvas.width/2,this.canvas.height/2,145,0,Math.PI * t);
+	        this.context.stroke();
 		},
 		loop: null
 	},
@@ -90,19 +92,12 @@ const pomo = {
 	start() {
 		this.clock.loop = setInterval(this.count,this.ms);
 	},
-	draw(t) {
-        this.clock.context.beginPath();
-        this.clock.context.arc(this.clock.canvas.width/2,this.clock.canvas.height/2,145,0,Math.PI * t);
-        this.clock.context.stroke();
-	},
 	count() {
 		pomo.clock.reduceSeconds();
 		pomo.clock.secondsToDigitalDisplay();
+		pomo.clock.draw();
 	}
-
 };
-
 pomo.clock.context = pomo.clock.canvas.getContext("2d");
 pomo.clock.context.lineWidth = 10;
-
-
+pomo.clock.context.strokeStyle = "#8da823";
