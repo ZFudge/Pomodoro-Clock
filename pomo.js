@@ -43,8 +43,14 @@ const pomo = {
 		maxSeconds: 1500,
 		loop: null,
 		mouse: {
-			down: new Audio("mousedown.mp3"),
-			up: new Audio("mouseup.mp3")
+			sounds: [new Audio("mousedown.mp3"), new Audio("mouseup.mp3")],
+			down() {
+				this.sounds[0].play();
+			},
+			up() {
+				this.sounds[1].play();
+				this.sounds = this.sounds.reverse();
+			}
 		},
 		set setSeconds(t) {
 			this.seconds = t * 60;
@@ -104,3 +110,11 @@ const pomo = {
 pomo.clock.context = pomo.clock.canvas.getContext("2d");
 pomo.clock.context.lineWidth = 10;
 pomo.clock.context.strokeStyle = "#cc9604";
+
+window.addEventListener("keydown", function(btn) {
+	if (btn.keyCode === 32) {
+		pomo.clock.mouse.down();
+		pomo.clock.push();
+		setTimeout(()=>pomo.clock.mouse.up(),0);
+	}
+});
