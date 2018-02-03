@@ -25,12 +25,16 @@
 				<span class="pointy" onclick="pomo.break.breakTime = 1">+</span>
 			</span>
 		</div>
-		<div id="pomodoro">
+		<div id="pomodoro" onclick="pomo.clock.push()" class="" onmousedown="pomo.clock.mouse.down()" onmouseup="pomo.clock.mouse.up()">
 			<div id="text-container">
-				<p id="status" class="pointy" onclick="pomo.clock.push()" onmousedown="pomo.clock.mouse.down.play()" onmouseup="pomo.clock.mouse.up.play()">Session</p>
+				<p id="status">Session</p>
 				<p id="time">25:00</p>
 			</div>
 			<canvas id="pomodoro-canvas" width="300" height="300"></canvas>
+		    <map id='circle' name='circle'>
+		        <area shape="circle" coords="150,150,150"/>
+		    </map>
+			<img src="transparent.png" usemap="#circle">
 		</div>
 	</div>
 	<script type="text/javascript" src='pomo.js'></script>
