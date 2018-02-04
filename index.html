@@ -14,15 +14,15 @@
 		<div id="control-container">
 			<span>
 				<div class="title">Session</div>
-				<span class="pointy" onclick="pomo.session.sessionTime = -1">-</span>
+				<span class="pointy" onclick="pomo.setTime(-1,'session', document.getElementById('session-text'))">-</span>
 				<span id="session-text">25</span>
-				<span class="pointy" onclick="pomo.session.sessionTime = 1">+</span>
+				<span class="pointy" onclick="pomo.setTime(1,'session', document.getElementById('session-text'))">+</span>
 			</span>
 			<span>
 				<div class="title">Break</div>
-				<span class="pointy" onclick="pomo.break.breakTime = -1">-</span>
+				<span class="pointy" onclick="pomo.setTime(-1,'break', document.getElementById('break-text'))">-</span>
 				<span id="break-text">5</span>
-				<span class="pointy" onclick="pomo.break.breakTime = 1">+</span>
+				<span class="pointy" onclick="pomo.setTime(1,'break', document.getElementById('break-text'))">+</span>
 			</span>
 		</div>
 		<div id="pomodoro" onclick="pomo.clock.push()" class="">

@@ -1,117 +1,64 @@
 const pomo = {
-	pomo: document.getElementById("pomodoro"),
 	active: false,
 	incrementSounds: {
 		plus_one: new Audio("plus_one.wav"),
 		minus_one: new Audio("minus_one.wav")
 	},
 	session: {
-		text: document.getElementById('session-text'),
 		audio: new Audio("session.mp3"),
-		time: 25,
-		set sessionTime(t) {
-			if ((this.time > 1 || t === 1) && (!pomo.active || pomo.clock.status.innerHTML === "Break")) {
-				this.time += t;
-				const st = this.time;
-				this.text.innerHTML = st;
-				(t === 1) ? (
-					pomo.incrementSounds.plus_one.play(),
-					setTimeout(function() {
-						pomo.incrementSounds.plus_one.pause();
-						pomo.incrementSounds.plus_one.currentTime = 0;
-					}, 30)
-				) : (
-					pomo.incrementSounds.minus_one.play(),
-					setTimeout(function() {
-						pomo.incrementSounds.minus_one.pause();
-						pomo.incrementSounds.minus_one.currentTime = 0;
-					}, 30)
-				);
-				if (pomo.clock.status.innerHTML === "Session") {
-					pomo.clock.setSeconds = st;
-					pomo.clock.setMaxSeconds = st;
-					pomo.clock.secondsToDigitalDisplay();
-				}
-			}
-		}
+		time: 25
 	},
 	break: {
-		text: document.getElementById('break-text'),
 		audio: new Audio("break.mp3"),
-		time: 5,
-		set breakTime(t) {
-			if ((this.time > 1 || t === 1) && (!pomo.active || pomo.clock.status.innerHTML === "Session")) {
-				this.time += t;
-				const st = this.time;
-				this.text.innerHTML = st;
-				(t === 1) ? (
-					pomo.incrementSounds.plus_one.play(),
-					setTimeout(function() {
-						pomo.incrementSounds.plus_one.pause();
-						pomo.incrementSounds.plus_one.currentTime = 0;
-					}, 30)
-				) : (
-					pomo.incrementSounds.minus_one.play(),
-					setTimeout(function() {
-						pomo.incrementSounds.minus_one.pause();
-						pomo.incrementSounds.minus_one.currentTime = 0;
-					}, 30)
-				);
-				if (pomo.clock.status.innerHTML === "Break") {
-					pomo.clock.setSeconds = st;
-					pomo.clock.setMaxSeconds = st;
-					pomo.clock.secondsToDigitalDisplay();
-				}
+		time: 5
+	},
+	setTime(t, text, element) {
+		if ((this[text].time > 1 || t === 1) && (!pomo.active || pomo.clock.status.innerHTML.toUpperCase() != text.toUpperCase())) {
+			this[text].time += t;
+			const st = this[text].time;
+			element.innerHTML = st;
+			(t === 1) ? (
+				pomo.incrementSounds.plus_one.play(),
+				setTimeout(function() {
+					pomo.incrementSounds.plus_one.pause();
+					pomo.incrementSounds.plus_one.currentTime = 0;
+				}, 30)
+			) : (
+				pomo.incrementSounds.minus_one.play(),
+				setTimeout(function() {
+					pomo.incrementSounds.minus_one.pause();
+					pomo.incrementSounds.minus_one.currentTime = 0;
+				}, 30)
+			);
+			if (pomo.clock.status.innerHTML.toUpperCase() === text.toUpperCase()) {
+				pomo.clock.setSeconds = st;
+				pomo.clock.setMaxSeconds = st;
+				pomo.clock.convertSecondsToDigitalDisplay();
 			}
 		}
 	},
 	clock: {
-		ms: 1000,
+		body: document.getElementById("pomodoro"),
 		status: document.getElementById("status"),
 		time: document.getElementById("time"),
 		canvas: document.getElementById("pomodoro-canvas"),
-		seconds: 1500,
-		maxSeconds: 1500,
+		ms: 1000,
 		loop: null,
 		mouse: {
 			sounds: [new Audio("mousedown.wav"), new Audio("mouseup.wav")],
-			down(eventData) {
+			click(eventData, type) {
+				const index = (type === "down") ? 0 : 1;
 				if (eventData.button === 0) {
-					this.sounds[0].play();
+					this.sounds[index].play();
 					setTimeout(() => {
-						this.sounds[0].pause();
-						this.sounds[0].currentTime = 0;
-					}, 230);
+						this.sounds[index].pause();
+						this.sounds[index].currentTime = 0;
+						if (type === "up") this.sounds = this.sounds.reverse();
+					}, 250);
 				}
 			},
-			up(eventData) {
-				if (eventData.button === 0) {
-					this.sounds[1].play();
-					setTimeout(() => {
-						this.sounds[0].pause();
-						this.sounds[0].currentTime = 0;
-						this.sounds = this.sounds.reverse();
-					}, 230);
-				}
-			}
 		},
-		set setSeconds(t) {
-			this.seconds = t * 60;
-		},
-		set setMaxSeconds(t) {
-			this.maxSeconds = t * 60;
-		},
-		reduceSeconds() {
-			(this.seconds > 0) ? this.seconds-- : this.flipStatus();
-		},
-		flipStatus() {
-			const newStatus = (this.status.innerHTML === "Session") ? "Break" : "Session";
-			this.status.innerHTML = newStatus;
-			this.setSeconds = pomo[newStatus.toLowerCase()].time;
-			this.maxSeconds = this.seconds;
-			pomo[newStatus.toLowerCase()].audio.play();
-		},
-		secondsToDigitalDisplay() {
+		convertSecondsToDigitalDisplay() {
 			const t = this.seconds;
 			let hrs = 0, mins = 0, secs = 0;
 			if (t >= 3600) hrs = (t - t % 3600) / 3600;
@@ -125,8 +72,12 @@ const pomo = {
 				this.time.innerHTML = `${mins}:${secs}`;
 			}
 		},
-		pause() {
-			clearInterval(this.loop);
+		flipStatus() {
+			const newStatus = (this.status.innerHTML === "Session") ? "Break" : "Session";
+			this.status.innerHTML = newStatus;
+			this.setSeconds = pomo[newStatus.toLowerCase()].time;
+			this.maxSeconds = this.seconds;
+			pomo[newStatus.toLowerCase()].audio.play();
 		},
 		draw() {
 			const t = ((2 / this.maxSeconds) * this.seconds).toFixed(3);
@@ -135,24 +86,40 @@ const pomo = {
 	        this.context.arc(this.canvas.width/2,this.canvas.height/2,145,0,Math.PI * t);
 	        this.context.stroke();
 		},
+		countOneSecond() {
+			pomo.clock.reduceSeconds();
+			pomo.clock.convertSecondsToDigitalDisplay();
+			pomo.clock.draw();
+		},
 		push() {
 			pomo.active = !pomo.active;
 			(pomo.active) ? this.start() : this.pause();	
 		},
-		start() {
-			this.loop = setInterval(this.count,this.ms);
+		reduceSeconds() {
+			(this.seconds > 0) ? this.seconds-- : this.flipStatus();
 		},
-		count() {
-			pomo.clock.reduceSeconds();
-			pomo.clock.secondsToDigitalDisplay();
-			pomo.clock.draw();
+		pause() {
+			clearInterval(this.loop);
+		},
+		start() {
+			this.loop = setInterval(this.countOneSecond,this.ms);
+		},
+		set setSeconds(t) {
+			this.seconds = t * 60;
+		},
+		set setMaxSeconds(t) {
+			this.maxSeconds = t * 60;
 		}
 	}
 };
 
+pomo.clock.maxSeconds = pomo.session.time * 60;
+pomo.clock.seconds = pomo.session.time * 60;
 pomo.clock.context = pomo.clock.canvas.getContext("2d");
 pomo.clock.context.lineWidth = 20;
 pomo.clock.context.strokeStyle = "#f07423";
+pomo.clock.body.onmousedown = (eventData) => pomo.clock.mouse.click(eventData, "down");
+pomo.clock.body.onmouseup = (eventData) => pomo.clock.mouse.click(eventData, "up");
 
 window.addEventListener("keydown", function(btn) {
 	if (btn.keyCode === 32) {
@@ -161,6 +128,3 @@ window.addEventListener("keydown", function(btn) {
 		setTimeout(()=>pomo.clock.mouse.up(),0);
 	}
 });
-
-pomo.pomo.onmousedown = (eventData) => pomo.clock.mouse.down(eventData);
-pomo.pomo.onmouseup = (eventData) => pomo.clock.mouse.up(eventData);
