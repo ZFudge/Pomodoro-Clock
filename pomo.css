@@ -77,7 +77,7 @@ h1 {
 	font-size: 50px;
 	display: flex;
 	flex-direction: column;
-	justify-content: space-around;
+	justify-content: center;
 }
 
 .pointy {

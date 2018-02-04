@@ -1,6 +1,10 @@
 const pomo = {
 	pomo: document.getElementById("pomodoro"),
 	active: false,
+	incrementSounds: {
+		plus_one: new Audio("plus_one.wav"),
+		minus_one: new Audio("minus_one.wav")
+	},
 	session: {
 		text: document.getElementById('session-text'),
 		audio: new Audio("session.mp3"),
@@ -10,6 +14,19 @@ const pomo = {
 				this.time += t;
 				const st = this.time;
 				this.text.innerHTML = st;
+				(t === 1) ? (
+					pomo.incrementSounds.plus_one.play(),
+					setTimeout(function() {
+						pomo.incrementSounds.plus_one.pause();
+						pomo.incrementSounds.plus_one.currentTime = 0;
+					}, 30)
+				) : (
+					pomo.incrementSounds.minus_one.play(),
+					setTimeout(function() {
+						pomo.incrementSounds.minus_one.pause();
+						pomo.incrementSounds.minus_one.currentTime = 0;
+					}, 30)
+				);
 				if (pomo.clock.status.innerHTML === "Session") {
 					pomo.clock.setSeconds = st;
 					pomo.clock.setMaxSeconds = st;
@@ -27,6 +44,19 @@ const pomo = {
 				this.time += t;
 				const st = this.time;
 				this.text.innerHTML = st;
+				(t === 1) ? (
+					pomo.incrementSounds.plus_one.play(),
+					setTimeout(function() {
+						pomo.incrementSounds.plus_one.pause();
+						pomo.incrementSounds.plus_one.currentTime = 0;
+					}, 30)
+				) : (
+					pomo.incrementSounds.minus_one.play(),
+					setTimeout(function() {
+						pomo.incrementSounds.minus_one.pause();
+						pomo.incrementSounds.minus_one.currentTime = 0;
+					}, 30)
+				);
 				if (pomo.clock.status.innerHTML === "Break") {
 					pomo.clock.setSeconds = st;
 					pomo.clock.setMaxSeconds = st;
@@ -121,7 +151,7 @@ const pomo = {
 };
 
 pomo.clock.context = pomo.clock.canvas.getContext("2d");
-pomo.clock.context.lineWidth = 10;
+pomo.clock.context.lineWidth = 20;
 pomo.clock.context.strokeStyle = "#f07423";
 
 window.addEventListener("keydown", function(btn) {
