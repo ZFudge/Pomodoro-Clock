@@ -3,7 +3,7 @@ body {
 	padding: 0;
 	text-align: center;
 	overflow: hidden;
-	background-color: #0496cc;
+	background-color: #0ab3c3;
 	user-select: none;
 }
 
@@ -28,6 +28,7 @@ html, body, #outer-container {
 
 h1 {
 	font-size: 64px;
+	margin-bottom: 10px;
 }
 
 #outer-container {
@@ -38,12 +39,12 @@ h1 {
 }
 
 #pomodoro, #pomodoro-canvas {
-	height: 300px;
-	width: 300px;
+	height: 20em;
+	width: 20em;
 }
 
 #pomodoro {
-	border: 10px solid white;
+	border: 10px solid #FFF;
 	border-radius: 50%;
 	margin: 0 auto;
 }
@@ -52,7 +53,7 @@ h1 {
 	z-index: -1;
 	position: absolute;
 	display: block;
-	margin-top: -300px;
+
 }
 
 #header-container {
@@ -68,7 +69,7 @@ h1 {
 }
 
 .title {
-	font-size: 24px;
+	font-size: 28px;
 }
 
 #text-container {

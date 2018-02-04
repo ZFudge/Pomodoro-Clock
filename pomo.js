@@ -1,4 +1,5 @@
 const pomo = {
+	pomo: document.getElementById("pomodoro"),
 	active: false,
 	session: {
 		text: document.getElementById('session-text'),
@@ -43,13 +44,25 @@ const pomo = {
 		maxSeconds: 1500,
 		loop: null,
 		mouse: {
-			sounds: [new Audio("mousedown.mp3"), new Audio("mouseup.mp3")],
-			down() {
-				this.sounds[0].play();
+			sounds: [new Audio("mousedown.wav"), new Audio("mouseup.wav")],
+			down(eventData) {
+				if (eventData.button === 0) {
+					this.sounds[0].play();
+					setTimeout(() => {
+						this.sounds[0].pause();
+						this.sounds[0].currentTime = 0;
+					}, 230);
+				}
 			},
-			up() {
-				this.sounds[1].play();
-				this.sounds = this.sounds.reverse();
+			up(eventData) {
+				if (eventData.button === 0) {
+					this.sounds[1].play();
+					setTimeout(() => {
+						this.sounds[0].pause();
+						this.sounds[0].currentTime = 0;
+						this.sounds = this.sounds.reverse();
+					}, 230);
+				}
 			}
 		},
 		set setSeconds(t) {
@@ -109,7 +122,7 @@ const pomo = {
 
 pomo.clock.context = pomo.clock.canvas.getContext("2d");
 pomo.clock.context.lineWidth = 10;
-pomo.clock.context.strokeStyle = "#cc9604";
+pomo.clock.context.strokeStyle = "#f07423";
 
 window.addEventListener("keydown", function(btn) {
 	if (btn.keyCode === 32) {
@@ -118,3 +131,6 @@ window.addEventListener("keydown", function(btn) {
 		setTimeout(()=>pomo.clock.mouse.up(),0);
 	}
 });
+
+pomo.pomo.onmousedown = (eventData) => pomo.clock.mouse.down(eventData);
+pomo.pomo.onmouseup = (eventData) => pomo.clock.mouse.up(eventData);
