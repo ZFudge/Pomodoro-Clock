@@ -5,6 +5,8 @@ body {
 	overflow: hidden;
 	background-color: #0ab3c3;
 	user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
 }
 
 area {
@@ -29,6 +31,7 @@ html, body, #outer-container {
 h1 {
 	font-size: 64px;
 	margin-bottom: 10px;
+	margin: 10px auto;
 }
 
 #outer-container {
