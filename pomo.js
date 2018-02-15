@@ -48,6 +48,7 @@ const pomo = {
 			sounds: [new Audio("mousedown.wav"), new Audio("mouseup.wav")],
 			click(eventData, type) {
 				const index = (type === "down") ? 0 : 1;
+				if (type === "up") pomo.clock.push();
 				if (eventData.button === 0) {
 					this.sounds[index].play();
 					setTimeout(() => {
@@ -56,9 +57,9 @@ const pomo = {
 						if (type === "up") this.sounds = this.sounds.reverse();
 					}, 250);
 				}
-				window.onmouseup = function(eventData) {
+				document.body.onmouseup = function(eventData) {
 					pomo.clock.mouse.click(eventData, "up");
-					window.onmouseup = null;
+					document.body.onmouseup = function(){};
 				}
 			}
 		},
