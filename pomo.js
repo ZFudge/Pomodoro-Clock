@@ -56,7 +56,11 @@ const pomo = {
 						if (type === "up") this.sounds = this.sounds.reverse();
 					}, 250);
 				}
-			},
+				window.onmouseup = function(eventData) {
+					pomo.clock.mouse.click(eventData, "up");
+					window.onmouseup = null;
+				}
+			}
 		},
 		convertSecondsToDigitalDisplay() {
 			const t = this.seconds;
@@ -119,7 +123,6 @@ pomo.clock.context = pomo.clock.canvas.getContext("2d");
 pomo.clock.context.lineWidth = 20;
 pomo.clock.context.strokeStyle = "#f07423";
 pomo.clock.body.onmousedown = (eventData) => pomo.clock.mouse.click(eventData, "down");
-pomo.clock.body.onmouseup = (eventData) => pomo.clock.mouse.click(eventData, "up");
 
 window.addEventListener("keydown", function(btn) {
 	if (btn.keyCode === 32) {
