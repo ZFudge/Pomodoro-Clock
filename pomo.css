@@ -4,9 +4,10 @@ body {
 	text-align: center;
 	overflow: hidden;
 	background-color: #0ab3c3;
-	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 area {
