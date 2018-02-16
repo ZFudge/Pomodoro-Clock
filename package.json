@@ -1,0 +1,22 @@
+{
+  "name": "pomodoro",
+  "version": "1.0.0",
+  "description": "A pomodoro timer.",
+  "main": "src/pomo.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZFudge/Pomodoro-Clock.git"
+  },
+  "author": "Zach Fudge",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZFudge/Pomodoro-Clock/issues"
+  },
+  "homepage": "https://github.com/ZFudge/Pomodoro-Clock#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}
