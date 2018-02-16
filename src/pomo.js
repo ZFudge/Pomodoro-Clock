@@ -1,15 +1,15 @@
 const pomo = {
 	active: false,
 	incrementSounds: {
-		plus_one: new Audio("plus_one.wav"),
-		minus_one: new Audio("minus_one.wav")
+		plus_one: new Audio("audio/plus_one.mp3"),
+		minus_one: new Audio("audio/minus_one.mp3")
 	},
 	session: {
-		audio: new Audio("session.mp3"),
+		audio: new Audio("audio/session.mp3"),
 		time: 25
 	},
 	break: {
-		audio: new Audio("break.mp3"),
+		audio: new Audio("audio/break.mp3"),
 		time: 5
 	},
 	setTime(t, text, element) {
@@ -21,14 +21,14 @@ const pomo = {
 				pomo.incrementSounds.plus_one.play(),
 				setTimeout(function() {
 					pomo.incrementSounds.plus_one.pause();
-					pomo.incrementSounds.plus_one.currentTime = 0;
-				}, 30)
+					if (!isNaN(pomo.incrementSounds.plus_one.duration)) pomo.incrementSounds.plus_one.currentTime = 0;
+				}, 50)
 			) : (
 				pomo.incrementSounds.minus_one.play(),
 				setTimeout(function() {
 					pomo.incrementSounds.minus_one.pause();
-					pomo.incrementSounds.minus_one.currentTime = 0;
-				}, 30)
+					if (!isNaN(pomo.incrementSounds.minus_one.duration)) pomo.incrementSounds.minus_one.currentTime = 0;
+				}, 50)
 			);
 			if (pomo.clock.status.innerHTML.toUpperCase() === text.toUpperCase()) {
 				pomo.clock.setSeconds = st;
@@ -45,7 +45,7 @@ const pomo = {
 		ms: 1000,
 		loop: null,
 		mouse: {
-			sounds: [new Audio("mousedown.wav"), new Audio("mouseup.wav")],
+			sounds: [new Audio("audio/mousedown.mp3"), new Audio("audio/mouseup.mp3")],
 			click(eventData, type) {
 				const index = (type === "down") ? 0 : 1;
 				if (type === "up") pomo.clock.push();
