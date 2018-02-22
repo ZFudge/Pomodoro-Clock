@@ -8,6 +8,7 @@
 </head>
 <body>
 	<div id="outer-container">
+		<div id="nav-placeholder"></div>
 		<div id="header-container">
 			<h1>Pomodoro Timer</h1>
 		</div>
@@ -38,5 +39,8 @@
 		</div>
 	</div>
 	<script src='dist/pomo.js'></script>
+	<script type="text/javascript">
+		document.getElementById('nav-placeholder').innerHTML = '<object type="text/html" data="../nav.html" ></object>';
+	</script>
 </body>
 </html>

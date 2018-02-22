@@ -2,12 +2,11 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: center;
-	overflow: hidden;
 	background-color: #0ab3c3;
+	user-select: none;
 	-moz-user-select: none;
 	-webkit-user-select: none;
 	-ms-user-select: none;
-	user-select: none;
 }
 
 area {
@@ -20,6 +19,14 @@ img {
 	position: relative;
 	margin-top: -100%;
 	opacity: 0;
+}
+
+#nav-placeholder {
+  width: 30em;
+  margin: 0 auto;
+}
+#nav-placeholder object {
+  width: 30em;
 }
 
 html, body, #outer-container {
@@ -36,10 +43,6 @@ h1 {
 }
 
 #outer-container {
-	display: grid;
-	flex-direction: column;
-	justify-content: center;
-	align-items: space-around;
 }
 
 #pomodoro, #pomodoro-canvas {
@@ -68,12 +71,13 @@ h1 {
 #control-container {
 	font-size: 25px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	align-items: center;
 }
 
 .title {
 	font-size: 28px;
+	margin: 0 3em;
 }
 
 #text-container {
